@@ -4,17 +4,26 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.example.recipeapp.data.AppDatabase
 import com.example.recipeapp.data.Recipe
+import com.example.recipeapp.data.repository.RecipeRepository
 import kotlinx.coroutines.launch
 
 class RecipeViewModel(app: Application) : AndroidViewModel(app) {
-    private val dao = AppDatabase.get(app).recipeDao()
-    val allRecipes: LiveData<List<Recipe>> = dao.getAll().asLiveData()
+    private val repository: RecipeRepository
+    val allRecipes: LiveData<List<Recipe>>
 
-    fun addRecipe(recipe: Recipe) = viewModelScope.launch {
-        dao.insert(recipe)
+    init {
+        val dao = AppDatabase.get(app).recipeDao()
+        repository = RecipeRepository(dao)
+        allRecipes = repository.allRecipes.asLiveData()
     }
 
+    fun addRecipe(recipe: Recipe) = viewModelScope.launch {
+        repository.insert(recipe)
+    }
+    fun updateRecipe(recipe: Recipe) = viewModelScope.launch {
+        repository.update(recipe)
+    }
     fun deleteRecipe(recipe: Recipe) = viewModelScope.launch {
-        dao.delete(recipe)
+        repository.delete(recipe)
     }
 }

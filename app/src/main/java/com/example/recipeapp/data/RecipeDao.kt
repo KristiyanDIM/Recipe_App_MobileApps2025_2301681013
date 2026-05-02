@@ -7,7 +7,8 @@ import kotlinx.coroutines.flow.Flow
 interface RecipeDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(recipe: Recipe)
-
+    @Update
+    suspend fun update(recipe: Recipe)
     @Delete
     suspend fun delete(recipe: Recipe)
 
