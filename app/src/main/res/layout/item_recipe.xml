@@ -34,13 +34,13 @@
             android:layout_marginStart="16dp">
 
             <TextView
-                android:id="@+id/tvRecipeTitle"
+                android:id="@+id/tvTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:textColor="?attr/colorOnSurface"
                 android:textStyle="bold"
-                tools:text="Мусака" />
+                 />
 
             <TextView
                 android:id="@+id/tvIngredientsPreview"
@@ -50,7 +50,18 @@
                 android:textColor="?attr/colorOutline"
                 android:maxLines="1"
                 android:ellipsize="end"
-                tools:text="картофи, кайма, заливка..." />
+
+                />
+
+            <TextView
+                android:id="@+id/tvInstructionsPreview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                />
 
         </LinearLayout>
 
