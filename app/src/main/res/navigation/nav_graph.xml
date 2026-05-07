@@ -24,4 +24,9 @@
         android:name="com.example.recipeapp.ui.ProfileFragment"
         android:label="Profile" />
 
+    <fragment
+        android:id="@+id/detailRecipeFragment"
+        android:name="com.example.recipeapp.ui.DetailRecipeFragment"
+        android:label="Детайли за рецепта" />
+
 </navigation>

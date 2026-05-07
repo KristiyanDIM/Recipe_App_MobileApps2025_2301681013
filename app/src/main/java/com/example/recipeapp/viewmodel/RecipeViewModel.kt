@@ -26,4 +26,8 @@ class RecipeViewModel(app: Application) : AndroidViewModel(app) {
     fun deleteRecipe(recipe: Recipe) = viewModelScope.launch {
         repository.delete(recipe)
     }
+
+    fun getRecipeById(id: Int): LiveData<Recipe?> = liveData {
+        emit(repository.getRecipeById(id))
+    }
 }

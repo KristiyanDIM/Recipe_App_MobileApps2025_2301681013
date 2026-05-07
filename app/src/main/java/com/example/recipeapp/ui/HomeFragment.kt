@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeapp.R
 import com.example.recipeapp.viewmodel.RecipeViewModel
+import androidx.navigation.fragment.findNavController
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
@@ -25,8 +26,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         viewModel = ViewModelProvider(requireActivity())[RecipeViewModel::class.java]
 
         adapter = RecipeAdapter { recipe ->
-            // Тук може да отворите детайли за рецептата (бонус)
+            // Навигация до DetailFragment с ID на рецептата
+            val bundle = Bundle().apply {
+                putInt("recipe_id", recipe.id)
+            }
+            findNavController().navigate(R.id.detailRecipeFragment, bundle)
         }
+
         rvRecipes.adapter = adapter
 
         // Наблюдаване на промените в базата данни

@@ -14,4 +14,9 @@ interface RecipeDao {
 
     @Query("SELECT * FROM recipes ORDER BY title ASC")
     fun getAll(): Flow<List<Recipe>>
+
+    @Query("SELECT * FROM recipes WHERE id = :id")
+    suspend fun getRecipeById(id: Int): Recipe?
+
+
 }

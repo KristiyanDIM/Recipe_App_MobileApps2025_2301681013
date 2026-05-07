@@ -35,7 +35,7 @@
 
             <TextView
                 android:id="@+id/tvTitle"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:textColor="?attr/colorOnSurface"
@@ -44,13 +44,13 @@
 
             <TextView
                 android:id="@+id/tvIngredientsPreview"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:textColor="?attr/colorOutline"
                 android:maxLines="1"
                 android:ellipsize="end"
-
+                android:tooltipText=""
                 />
 
             <TextView

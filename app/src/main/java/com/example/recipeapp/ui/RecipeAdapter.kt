@@ -7,7 +7,7 @@ import com.example.recipeapp.data.Recipe
 import com.example.recipeapp.databinding.ItemRecipeBinding
 
 class RecipeAdapter(
-    private var recipes: List<Recipe> = emptyList(),
+    private var recipes: List<Recipe> = emptyList(),   //Списък с рецептите
     private val onItemClick: (Recipe) -> Unit
 ) : RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>() {
 
