@@ -18,8 +18,8 @@ class RecipeAdapter(
 
         fun bind(recipe: Recipe) {
             binding.tvTitle.text = recipe.title
-            binding.tvIngredientsPreview.text = recipe.ingredients.take(100) + if (recipe.ingredients.length > 100) "..." else ""
-            binding.tvInstructionsPreview.text = recipe.instructions.take(100) + if (recipe.instructions.length > 100) "..." else ""
+            binding.tvIngredientsPreview.text = recipe.ingredients.take(50) + if (recipe.ingredients.length > 50) "..." else ""
+            binding.tvInstructionsPreview.text = recipe.instructions.take(50) + if (recipe.instructions.length > 50) "..." else ""
 
             binding.root.setOnClickListener {
                 onItemClick(recipe)
