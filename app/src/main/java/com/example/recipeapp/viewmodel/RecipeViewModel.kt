@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.example.recipeapp.data.AppDatabase
 import com.example.recipeapp.data.Recipe
-import com.example.recipeapp.data.repository.RecipeRepository
+import com.example.recipeapp.repository.RecipeRepository
 import kotlinx.coroutines.launch
 
 class RecipeViewModel(app: Application) : AndroidViewModel(app) {

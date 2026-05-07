@@ -1,4 +1,4 @@
-package com.example.recipeapp.data.repository
+package com.example.recipeapp.repository
 
 import com.example.recipeapp.data.Recipe
 import com.example.recipeapp.data.RecipeDao
