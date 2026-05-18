@@ -6,7 +6,44 @@
     android:layout_height="match_parent"
     android:background="#F5F5F5">
 
-    <!-- Fragment container - ТОВА ЛИПСВАШЕ! -->
+    <!-- Заглавие на приложението -->
+    <LinearLayout
+        android:id="@+id/StartBar"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:background="#F5F5F5"
+        android:elevation="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Заглавие в лявата част -->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-light"
+            android:letterSpacing="0.02"
+            android:text="Cook Book"
+            android:textColor="@color/black"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <!-- Икона в дясната част -->
+        <ImageView
+            android:id="@+id/ivIcon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:contentDescription="Icon"
+            android:src="@drawable/ic_profile" />
+
+    </LinearLayout>
+
+    <!-- Fragment -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
@@ -14,9 +51,9 @@
         android:layout_height="0dp"
         app:defaultNavHost="true"
         app:layout_constraintBottom_toTopOf="@+id/bottomBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/StartBar"
+        app:layout_constraintStart_toStartOf="@id/StartBar"
+        app:layout_constraintTop_toBottomOf="@+id/StartBar"
         app:navGraph="@navigation/nav_graph" />
 
     <!-- Bottom Navigation -->

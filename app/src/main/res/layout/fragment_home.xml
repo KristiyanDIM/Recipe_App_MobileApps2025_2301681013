@@ -6,43 +6,6 @@
     android:orientation="vertical"
     android:background="#F5F5F5">
 
-    <!-- Заглавие на приложението -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:background="#F5F5F5"
-        android:elevation="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <!-- Заглавие в лявата част -->
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Cook Book"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:fontFamily="sans-serif-light"
-            android:letterSpacing="0.02" />
-
-        <!-- Икона в дясната част -->
-        <ImageView
-            android:id="@+id/ivIcon"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:src="@drawable/ic_profile"
-            android:contentDescription="Icon"
-            />
-
-    </LinearLayout>
-
 
     <!-- RecyclerView в LinearLayout (1 колона - обикновен списък) -->
     <androidx.recyclerview.widget.RecyclerView
