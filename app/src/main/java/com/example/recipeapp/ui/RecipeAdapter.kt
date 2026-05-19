@@ -5,6 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeapp.data.Recipe
 import com.example.recipeapp.databinding.ItemRecipeBinding
+import com.example.recipeapp.R
+import coil.load
 
 class RecipeAdapter(
     private var recipes: List<Recipe> = emptyList(),   //Списък с рецептите
@@ -20,6 +22,11 @@ class RecipeAdapter(
             binding.tvTitle.text = recipe.title
             binding.tvIngredientsPreview.text = recipe.ingredients.take(50) + if (recipe.ingredients.length > 50) "..." else ""
             binding.tvInstructionsPreview.text = recipe.instructions.take(50) + if (recipe.instructions.length > 50) "..." else ""
+            binding.ivRecipeImage.load(recipe.photoPath) {
+                placeholder(R.drawable.ic_add_photo)
+                error(R.drawable.ic_add_photo)
+                crossfade(true)
+            }
 
             binding.root.setOnClickListener {
                 onItemClick(recipe)
