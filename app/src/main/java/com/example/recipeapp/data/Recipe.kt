@@ -8,5 +8,5 @@ data class Recipe(
     val title: String,
     val ingredients: String,
     val instructions: String,
-    val photoPath: String? // За снимка от камерата (Бонус точки)
+    val photoPath: String? // За снимка от камерата
 )
