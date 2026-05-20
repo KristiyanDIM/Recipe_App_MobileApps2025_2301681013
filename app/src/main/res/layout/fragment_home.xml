@@ -4,10 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F5F5F5">
+    android:background="?android:attr/colorBackground">
 
-
-    <!-- RecyclerView в LinearLayout (1 колона - обикновен списък) -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvRecipes"
         android:layout_width="match_parent"
@@ -15,15 +13,14 @@
         android:padding="8dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-    <!-- Съобщение при празен списък -->
     <TextView
         android:id="@+id/tvEmpty"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="📭 Няма добавени рецепти\n\nНатиснете бутона + за да добавите"
+        android:text="Няма добавени рецепти\n\nНатиснете бутона + за да добавите"
         android:textSize="18sp"
-        android:textColor="#888888"
+        android:textColor="?attr/colorOnSurface"
         android:visibility="gone" />
 
 </LinearLayout>
