@@ -1,6 +1,7 @@
 package com.example.recipeapp.ui
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -54,15 +55,14 @@ class DetailRecipeFragment : Fragment(R.layout.fragment_detail_recipe) {
 
 
 
+    // Регистратор за резултат от камера чрез изричен Intent
     private val takePictureLauncher = registerForActivityResult(
-        ActivityResultContracts.TakePicture()
-    ) { success ->
-        if (success) {
-            // Актуализирай currentPhotoPath с пътя, който запазихме
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
             if (currentPhotoPath != null) {
-                val file = File(currentPhotoPath)
+                val file = File(currentPhotoPath!!)
                 if (file.exists()) {
-                    // Обнови ImageView
                     val uri = FileProvider.getUriForFile(
                         requireContext(),
                         "${requireContext().packageName}.fileprovider",
@@ -71,8 +71,6 @@ class DetailRecipeFragment : Fragment(R.layout.fragment_detail_recipe) {
                     ivRecipeImage.setImageURI(uri)
                     Toast.makeText(requireContext(), "Снимката е обновена", Toast.LENGTH_SHORT).show()
                     btnSaveEdit.isEnabled = true
-                } else {
-                    Toast.makeText(requireContext(), "Грешка: файлът не беше създаден", Toast.LENGTH_SHORT).show()
                 }
             }
         } else {
@@ -317,19 +315,20 @@ class DetailRecipeFragment : Fragment(R.layout.fragment_detail_recipe) {
 
     private fun dispatchTakePictureIntent() {
         try {
-            val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            val photoFile = createImageFile()
+            val photoURI = FileProvider.getUriForFile(
+                requireContext(),
+                "${requireContext().packageName}.fileprovider",
+                photoFile
+            )
 
-            if (takePictureIntent.resolveActivity(requireContext().packageManager) != null) {
-                val photoFile = createImageFile()
-                val photoURI = FileProvider.getUriForFile(
-                    requireContext(),
-                    "${requireContext().packageName}.fileprovider",
-                    photoFile
-                )
-                takePictureLauncher.launch(photoURI)
-            } else {
-                Toast.makeText(requireContext(), "Няма достъп до камерата", Toast.LENGTH_SHORT).show()
+            // Използване на изричен Camera Intent
+            val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
+                putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
             }
+            takePictureLauncher.launch(takePictureIntent)
         } catch (e: Exception) {
             Toast.makeText(requireContext(), "Грешка: ${e.message}", Toast.LENGTH_SHORT).show()
         }
@@ -338,7 +337,10 @@ class DetailRecipeFragment : Fragment(R.layout.fragment_detail_recipe) {
     private fun createImageFile(): File {
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
         val imageFileName = "JPEG_${timeStamp}_"
-        val storageDir = requireContext().getExternalFilesDir(null)
+        val storageDir = requireContext().getExternalFilesDir("Pictures")
+        if (storageDir != null && !storageDir.exists()) {
+            storageDir.mkdirs()
+        }
         return File.createTempFile(imageFileName, ".jpg", storageDir).apply {
             currentPhotoPath = absolutePath
         }

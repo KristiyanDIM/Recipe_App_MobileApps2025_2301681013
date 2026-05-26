@@ -1,6 +1,8 @@
 package com.example.recipeapp.ui
 
 import android.Manifest
+import android.app.Activity
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
@@ -38,11 +40,12 @@ class AddRecipeFragment : Fragment(R.layout.fragment_add_recipe) {
     private var currentPhotoPath: String? = null
     private var photoUri: Uri? = null
 
-    // Регистратор за резултат от камера
+    // Регистратор за резултат от камера чрез изричен Intent
     private val takePictureLauncher = registerForActivityResult(
-        ActivityResultContracts.TakePicture()
-    ) { success ->
-        if (success) {
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            // При успех снимката е записана в photoUri
             ivPhotoPreview.setImageURI(photoUri)
             Toast.makeText(requireContext(), "Снимката е добавена", Toast.LENGTH_SHORT).show()
         } else {
@@ -105,7 +108,15 @@ class AddRecipeFragment : Fragment(R.layout.fragment_add_recipe) {
                 photoFile
             )
 
-            takePictureLauncher.launch(photoUri)
+            // Използване на изричен Camera Intent
+            val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
+                putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+                // Даваме разрешения както за четене, така и за ПИСАНЕ
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+            }
+
+            takePictureLauncher.launch(takePictureIntent)
         } catch (e: Exception) {
             Log.e("CameraDebug", "Error starting camera: ${e.message}")
             Toast.makeText(requireContext(), "Грешка при стартиране на камерата", Toast.LENGTH_SHORT).show()
