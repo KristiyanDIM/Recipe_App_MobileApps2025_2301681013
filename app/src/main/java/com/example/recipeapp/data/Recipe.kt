@@ -4,9 +4,10 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "recipes")
 data class Recipe(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     val title: String,
     val ingredients: String,
     val instructions: String,
-    val photoPath: String? // За снимка от камерата
+    val photoPath: String? //Път до снимката в телефона. Като снимката не е задължителна.
 )

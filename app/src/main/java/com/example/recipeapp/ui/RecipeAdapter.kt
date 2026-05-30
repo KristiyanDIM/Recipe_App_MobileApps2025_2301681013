@@ -8,6 +8,7 @@ import com.example.recipeapp.databinding.ItemRecipeBinding
 import com.example.recipeapp.R
 import coil.load
 
+// RecipeAdapter – "печата" всяка рецепта в списъка
 class RecipeAdapter(
     private var recipes: List<Recipe> = emptyList(),   //Списък с рецептите
     private val onItemClick: (Recipe) -> Unit
@@ -34,6 +35,7 @@ class RecipeAdapter(
         }
     }
 
+    // Създава празната форма за една рецепта.
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeViewHolder {
         val binding = ItemRecipeBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
@@ -41,12 +43,14 @@ class RecipeAdapter(
         return RecipeViewHolder(binding, onItemClick)
     }
 
+    // Попълва картичката с данни
     override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
         holder.bind(recipes[position])
     }
-
+    // брои колко картички са
     override fun getItemCount() = recipes.size
 
+    // Обновява списъка с новите рецепти
     fun updateRecipes(newRecipes: List<Recipe>) {
         recipes = newRecipes
         notifyDataSetChanged()

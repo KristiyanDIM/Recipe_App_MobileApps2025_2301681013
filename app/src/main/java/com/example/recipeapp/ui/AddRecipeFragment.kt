@@ -40,30 +40,7 @@ class AddRecipeFragment : Fragment(R.layout.fragment_add_recipe) {
     private var currentPhotoPath: String? = null
     private var photoUri: Uri? = null
 
-    // Регистратор за резултат от камера чрез изричен Intent
-    private val takePictureLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            // При успех снимката е записана в photoUri
-            ivPhotoPreview.setImageURI(photoUri)
-            Toast.makeText(requireContext(), "Снимката е добавена", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(requireContext(), "Снимката не беше направена", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    // Регистратор за разрешение за камера
-    private val requestPermissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted ->
-        if (isGranted) {
-            dispatchTakePictureIntent()
-        } else {
-            Toast.makeText(requireContext(), "Няма разрешение за камера", Toast.LENGTH_SHORT).show()
-        }
-    }
-
+   // Тук свързваме UI елементите, взимаме ViewModel и настройваме бутоните.
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -85,54 +62,7 @@ class AddRecipeFragment : Fragment(R.layout.fragment_add_recipe) {
         }
     }
 
-    private fun checkCameraPermission() {
-        when {
-            ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
-                    == PackageManager.PERMISSION_GRANTED -> {
-                dispatchTakePictureIntent()
-            }
-            else -> {
-                requestPermissionLauncher.launch(Manifest.permission.CAMERA)
-            }
-        }
-    }
-
-    private fun dispatchTakePictureIntent() {
-        try {
-            val photoFile = createImageFile()
-            currentPhotoPath = photoFile.absolutePath
-
-            photoUri = FileProvider.getUriForFile(
-                requireContext(),
-                "${requireContext().packageName}.fileprovider",
-                photoFile
-            )
-
-            // Използване на изричен Camera Intent
-            val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
-                putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
-                // Даваме разрешения както за четене, така и за ПИСАНЕ
-                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-            }
-
-            takePictureLauncher.launch(takePictureIntent)
-        } catch (e: Exception) {
-            Log.e("CameraDebug", "Error starting camera: ${e.message}")
-            Toast.makeText(requireContext(), "Грешка при стартиране на камерата", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun createImageFile(): File {
-        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        val imageFileName = "JPEG_${timeStamp}_"
-        val storageDir = requireContext().getExternalFilesDir("Pictures")
-        if (storageDir != null && !storageDir.exists()) {
-            storageDir.mkdirs()
-        }
-        return File.createTempFile(imageFileName, ".jpg", storageDir)
-    }
-
+    // Добавя рецепта в базата данни и създава обект Рецепта
     private fun saveRecipe() {
         val title = etTitle.text.toString().trim()
         val ingredients = etIngredients.text.toString().trim()
@@ -182,5 +112,80 @@ class AddRecipeFragment : Fragment(R.layout.fragment_add_recipe) {
         etInstructions.text.clear()
         currentPhotoPath = null
         ivPhotoPreview.setImageResource(R.drawable.ic_add_photo)
+    }
+
+   //Камера
+    private fun checkCameraPermission() {
+        when {
+            ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
+                    == PackageManager.PERMISSION_GRANTED -> {
+                dispatchTakePictureIntent()
+            }
+            else -> {
+                requestPermissionLauncher.launch(Manifest.permission.CAMERA)
+            }
+        }
+    }
+
+    // Регистратор за искане на разрешение за камера
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            dispatchTakePictureIntent()
+        } else {
+            Toast.makeText(requireContext(), "Няма разрешение за камера", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    // Отваря камерата, за да направи снимка
+    private fun dispatchTakePictureIntent() {
+        try {
+            // Създава се временен файл за съхранение на снимката
+            val photoFile = createImageFile()
+            currentPhotoPath = photoFile.absolutePath
+
+            // Създава се уникален адрес за файла
+            photoUri = FileProvider.getUriForFile(
+                requireContext(),
+                "${requireContext().packageName}.fileprovider",
+                photoFile
+            )
+
+            // Създава се Intent за отваряне на камерата
+            val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
+                putExtra(MediaStore.EXTRA_OUTPUT, photoUri) // Къде да се запази снимката
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)  // Разрешение за четене
+                addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION) // Разрешение за писане
+            }
+
+            // Стартиране на камерата
+            takePictureLauncher.launch(takePictureIntent)
+        } catch (e: Exception) {
+            Log.e("CameraDebug", "Error starting camera: ${e.message}")
+            Toast.makeText(requireContext(), "Грешка при стартиране на камерата", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    // Регистратор за резултат от камерата
+    private val takePictureLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            ivPhotoPreview.setImageURI(photoUri)
+            Toast.makeText(requireContext(), "Снимката е добавена", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(requireContext(), "Снимката не беше направена", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun createImageFile(): File {
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val imageFileName = "JPEG_${timeStamp}_"
+        val storageDir = requireContext().getExternalFilesDir("Pictures")
+        if (storageDir != null && !storageDir.exists()) {
+            storageDir.mkdirs()
+        }
+        return File.createTempFile(imageFileName, ".jpg", storageDir)
     }
 }

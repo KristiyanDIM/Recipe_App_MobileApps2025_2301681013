@@ -10,21 +10,28 @@ import com.example.recipeapp.R
 import com.example.recipeapp.viewmodel.RecipeViewModel
 import androidx.navigation.fragment.findNavController
 
+// HomeFragment – началният екран, показва списък с всички рецепти
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
-    private lateinit var viewModel: RecipeViewModel
-    private lateinit var rvRecipes: RecyclerView
-    private lateinit var tvEmpty: TextView
-    private lateinit var adapter: RecipeAdapter
+    // Променливи (ще се използват по-късно в onViewCreated)
+    private lateinit var viewModel: RecipeViewModel //Данни
+    private lateinit var rvRecipes: RecyclerView // Списък с рецепти
+    private lateinit var tvEmpty: TextView // Ако нямаме рецепти, покажи това
+    private lateinit var adapter: RecipeAdapter // Рецепта
 
+
+    // Когато екранът се създаде
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Свързва променливите с елементите от екрана
         rvRecipes = view.findViewById(R.id.rvRecipes)
         tvEmpty = view.findViewById(R.id.tvEmpty)
 
+        // Дава се достъп до данните (ViewModel)
         viewModel = ViewModelProvider(requireActivity())[RecipeViewModel::class.java]
 
+        // Създава се адаптер
         adapter = RecipeAdapter { recipe ->
             // Навигация до DetailFragment с ID на рецептата
             val bundle = Bundle().apply {
