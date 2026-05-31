@@ -40,11 +40,12 @@
 
 ## Скрийншотове
 
-| Начален екран (светла тема) | ![Home Light](docs/images/home_light.png) |
-| Начален екран (тъмна тема) | ![Home Dark](docs/images/home_dark.png) |
-| Добавяне на рецепта | ![Add Recipe](docs/images/add_recipe_light.png) |
-| Детайли (светла тема) | ![Detail Light](docs/images/detail_light.png) |
-| Детайли (тъмна тема) | ![Detail Dark](docs/images/detail_dark.png) |
+<img width="484" height="951" alt="add_recipe_dark" src="https://github.com/user-attachments/assets/641da12d-00ee-446f-b704-d83ebd723e3a" />
+<img width="583" height="1293" alt="home_light" src="https://github.com/user-attachments/assets/eb73d91a-911e-4287-b0cf-bf07681e2550" />
+<img width="580" height="1288" alt="home_dark" src="https://github.com/user-attachments/assets/0c27d8bb-2b87-45f4-aba8-801f0065a106" />
+<img width="476" height="1148" alt="detail_light" src="https://github.com/user-attachments/assets/6ef0c70e-2583-4c97-838f-3d1f7e4073a0" />
+<img width="481" height="1154" alt="detail_dark" src="https://github.com/user-attachments/assets/be4a649c-a61e-4251-a8ca-2310f5adb8b4" />
+<img width="476" height="957" alt="add_recipe_light" src="https://github.com/user-attachments/assets/8e92b120-836c-4b06-a713-f8ac88192f12" />
 
 ---
 
