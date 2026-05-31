@@ -38,6 +38,14 @@
    
 ---
 
+## Скрийншотове
+
+<img src="docs/home_light.png" width="200" />
+<img src="docs/home_dark.png" width="200" />
+<img src="docs/add_recipe_light.png" width="200" />
+<img src="docs/add_recipe_dark.png" width="200" />
+<img src="docs/detail_light.png" width="200" />
+<img src="docs/detail_dark.png" width="200" />
 
 
 ---
